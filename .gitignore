@@ -1,0 +1,9 @@
+node_modules
+.next
+.env*
+!.env.example
+firmware/suraksha_watch/secrets.h
+.DS_Store
+**/.DS_Store
+firmware/**/build
+*.bin
