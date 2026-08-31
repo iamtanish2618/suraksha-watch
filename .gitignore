@@ -7,3 +7,6 @@ firmware/suraksha_watch/secrets.h
 **/.DS_Store
 firmware/**/build
 *.bin
+.vercel
+.agents/
+skills-lock.json
