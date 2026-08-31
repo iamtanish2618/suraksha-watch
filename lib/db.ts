@@ -4,9 +4,30 @@ const globalDb = globalThis as unknown as {
   surakshaPool?: Pool;
   schemaReady?: Promise<void>;
 };
+
+function poolConfig() {
+  const rawUrl = process.env.DATABASE_URL;
+  if (!rawUrl) return { connectionString: rawUrl, max: 10 };
+
+  const connectionUrl = new URL(rawUrl);
+  const sslMode = connectionUrl.searchParams.get("sslmode");
+  if (!sslMode || sslMode === "disable")
+    return { connectionString: rawUrl, max: 10 };
+
+  // Neon certificates are publicly trusted. Supplying TLS explicitly avoids
+  // pg's deprecated sslmode=require compatibility alias and keeps full
+  // certificate verification enabled across future pg major versions.
+  connectionUrl.searchParams.delete("sslmode");
+  return {
+    connectionString: connectionUrl.toString(),
+    max: 10,
+    ssl: { rejectUnauthorized: true },
+  };
+}
+
 export const db =
   globalDb.surakshaPool ??
-  new Pool({ connectionString: process.env.DATABASE_URL, max: 10 });
+  new Pool(poolConfig());
 if (process.env.NODE_ENV !== "production") globalDb.surakshaPool = db;
 
 export function ensureSchema() {
