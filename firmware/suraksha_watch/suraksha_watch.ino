@@ -9,26 +9,25 @@
 #include <Preferences.h>
 #include "secrets.h"
 
-// Change only these constants if your wiring differs.
+
 constexpr int I2C_SDA=21,I2C_SCL=22;
 constexpr int GPS_RX=16,GPS_TX=17;
 constexpr int DUST_LED_PIN=27,DUST_ANALOG_PIN=33;
 constexpr int MQ135_PIN=34,BATTERY_PIN=35,SOLAR_PIN=32,BUZZER_PIN=25;
 constexpr int CONFIG_BUTTON_PIN=0;
-// GPIO25 drives the base of an external NPN low-side switch. Do not connect a
-// 5 V buzzer directly to the ESP32 pin.
+
 constexpr bool BUZZER_ENABLED=true;
 constexpr uint8_t BUZZER_ACTIVE_LEVEL=HIGH;
 constexpr unsigned long BUZZER_BEEP_MS=1200;
 constexpr int ALERT_RISK_THRESHOLD=75;
-constexpr float ADC_DIVIDER_RATIO=2.0f; // 100k/100k divider; never feed >3.3V into an ESP32 ADC.
-constexpr float DUST_ADC_DIVIDER_RATIO=1.0f; // GP2Y Vo is connected directly to GPIO33 in this build.
-constexpr float MQ_ADC_DIVIDER_RATIO=1.0f; // MQ module AOUT is connected directly in this build.
-constexpr float DUST_CLEAN_AIR_VOLTAGE=0.60f; // Sharp typical Voc; calibrate per individual sensor.
-constexpr float DUST_SENSITIVITY=0.50f; // V per 100 ug/m3, Sharp typical value.
+constexpr float ADC_DIVIDER_RATIO=2.0f;
+constexpr float DUST_ADC_DIVIDER_RATIO=1.0f;
+constexpr float MQ_ADC_DIVIDER_RATIO=1.0f;
+constexpr float DUST_CLEAN_AIR_VOLTAGE=0.60f;
+constexpr float DUST_SENSITIVITY=0.50f;
 constexpr float MQ_LOAD_KOHM=10.0f,MQ_CIRCUIT_VOLTAGE=5.0f;
 constexpr float MQ_CURVE_A=116.6020682f,MQ_CURVE_B=-2.769034857f;
-constexpr uint8_t MQ_CALIBRATION_SAMPLES=12; // One clean-air minute at the 5-second post interval.
+constexpr uint8_t MQ_CALIBRATION_SAMPLES=12;
 constexpr unsigned long POST_INTERVAL_MS=5000;
 
 HardwareSerial gpsSerial(1); TinyGPSPlus gps; MAX30105* maxSensor=nullptr;
